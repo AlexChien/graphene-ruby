@@ -96,6 +96,9 @@ module Graphene
       Graphene.hash512(pub)
     end
 
+    def addr_hash160
+      Graphene.hash160_to_address(hash160)
+    end
     # Get the address corresponding to the public key.
     # def addr
     #   Graphene.hash160_to_address(hash160)
@@ -191,7 +194,9 @@ module Graphene
     # See also Key.from_bip38
     def to_bip38(passphrase)
       flagbyte = compressed ? "\xe0" : "\xc0"
-      addresshash = Digest::SHA256.digest( Digest::SHA256.digest( self.addr ) )[0...4]
+
+      # addresshash = Digest::SHA256.digest( Digest::SHA256.digest( self.addr ) )[0...4]
+      addresshash = Digest::SHA256.digest( Digest::SHA256.digest( addr_hash160 ) )[0...4]
 
       require 'scrypt' unless defined?(::SCrypt::Engine)
       buf = SCrypt::Engine.__sc_crypt(passphrase, addresshash, 16384, 8, 8, 64)
@@ -238,7 +243,8 @@ module Graphene
       priv = (priv.unpack("H*")[0].to_i(16) ^ derivedhalf1.unpack("H*")[0].to_i(16)).to_s(16).rjust(64, '0')
       key = Graphene::Key.new(priv, nil, compressed)
 
-      if Digest::SHA256.digest( Digest::SHA256.digest( key.addr ) )[0...4] != addresshash
+      # if Digest::SHA256.digest( Digest::SHA256.digest( key.addr ) )[0...4] != addresshash
+      if Digest::SHA256.digest( Digest::SHA256.digest( key.addr_hash160 ) )[0...4] != addresshash
         raise "Invalid addresshash! Password is likely incorrect."
       end
 

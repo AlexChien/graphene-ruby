@@ -125,12 +125,12 @@ module Graphene
     graphene: {
       project: :graphene,
       magic_head: "\xF9\xBE\xB4\xD9", #check
-      address_version: "", #check
+      address_version: "00",
+      p2sh_version: "05",
       address_prefix: "GPH",
-      # p2sh_version: "05", #check
       privkey_version: "80",
-      # extended_privkey_version: "0488ade4", #check
-      # extended_pubkey_version: "0488b21e", #check
+      extended_privkey_version: "0488ade4",
+      extended_pubkey_version: "0488b21e",
       default_port: 1776,
       protocol_version: 70001, #check
       coinbase_maturity: 100, #check

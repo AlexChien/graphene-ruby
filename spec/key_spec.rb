@@ -3,27 +3,6 @@ require 'pry'
 describe Graphene::Key do
 
   before do
-    # pybitcointool example
-    @key_data = {
-      # :priv => "20991828d456b389d0768ed7fb69bf26b9bb87208dd699ef49f10481c20d3e18",
-      # :pub => "035fcb2fb2802b024f371cc22bc392268cc579e47e7936e0d1f05064e6e1103b8a"
-      priv_hex: "3aba4162c7251c891207b747840551a71939b0de081f85c4e44cf7c13e41daa6",
-      priv_dec: "26563230048437957592232553826663696440606756685920117476832299673293013768870",
-      priv_wif: "5JG9hT3beGTJuUAmCQEmNaxAuMacCTfXuw1R3FCXig23RQHMr4K",
-      priv_compressed: "3aba4162c7251c891207b747840551a71939b0de081f85c4e44cf7c13e41daa601",
-      priv_wif_compressed: "KyBsPXxTuVD82av65KZkrGrWi5qLMah5SdNq6uftawDbgKa2wv6S",
-      pub_xy: {
-        x: "41637322786646325214887832269588396900663353932545912953362782457239403430124L",
-        y: "16388935128781238405526710466724741593761085120864331449066658622400339362166L"
-      },
-      pub_hex: "045c0de3b9c8ab18dd04e3511243ec2952002dbfadc864b9628910169d9b9b00ec243bcefdd4347074d44bd7356d6a53c495737dd96295e2a9374bf5f02ebfc176",
-      pub_compressed_hex: "025c0de3b9c8ab18dd04e3511243ec2952002dbfadc864b9628910169d9b9b00ec",
-      address: "1thMirt546nngXqyPEz532S8fLwbozud8",
-      address_compressed: "14cxpo3MBCYYWCgF74SWTdcmxipnGUsPw3"
-
-    }
-
-    # python-graphene example
     @key_data = {
       priv_hex: "20991828d456b389d0768ed7fb69bf26b9bb87208dd699ef49f10481c20d3e18",
       priv_dec: "14744505498247679578629998240401744750478068521024330599095720965782507437592",
@@ -261,7 +240,7 @@ describe Graphene::Key do
     expect(k.compressed).to be false
   end
 
-  it "should handle private key in bip38 (non-ec-multiply) format", :skip do
+  it "should handle private key in bip38 (non-ec-multiply) format" do
     k = Graphene::Key.from_base58("5KN7MzqK5wt2TP1fQCYyHBtDrXdJuXbUzm4A9rKAteGu3Qi5CVR")
     expect(k.to_bip38("TestingOneTwoThree")).to eq "6PRVWUbkzzsbcVac2qwfssoUJAN1Xhrg6bNk8J7Nzm5H7kxEbn2Nh2ZoGg"
 
