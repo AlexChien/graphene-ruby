@@ -11,6 +11,7 @@ group :development do
   gem 'eventmachine'
   gem 'ffi'
   gem 'scrypt'
+  gem 'log4r'
 end
 
 group :test do
