@@ -62,7 +62,7 @@ module Graphene
       cipher = init_aes(shared_secret_hex, nonce, true)
 
       encrypted = cipher.update(raw)# + cipher.final
-      encrypted.unpack("H*")[0]
+      encrypted.bth
     end
 
     #
@@ -76,7 +76,7 @@ module Graphene
     # @returns String
     def self.decode_memo(priv, pub, nonce, message)
       # prepare message
-      raw = [message].pack("H*")
+      raw = message.htb
 
       # get shared_secret
       shared_secret_hex = get_shared_secret(priv, pub)
@@ -103,8 +103,7 @@ module Graphene
 
       seed_digest = Digest::SHA512.hexdigest seed
 
-      key = [seed_digest[0...64]].pack("H*")
-      iv  = [seed_digest[64...96]].pack("H*")
+      key, iv = seed_digest[0...64].htb, seed_digest[64...96].htb
 
       cipher = OpenSSL::Cipher::AES.new(256, :CBC)
       if encrypt

@@ -214,7 +214,7 @@ module Graphene
 
       aes = proc{|k,a,b|
         cipher = OpenSSL::Cipher::AES.new(256, :ECB); cipher.encrypt; cipher.padding = 0; cipher.key = k
-        cipher.update [ (a.to_i(16) ^ b.unpack("H*")[0].to_i(16)).to_s(16).rjust(32, '0') ].pack("H*")
+        cipher.update (a.to_i(16) ^ b.bth.to_i(16)).to_s(16).rjust(32, '0').htb
       }
 
       encryptedhalf1 = aes.call(derivedhalf2, self.priv[0...32], derivedhalf1[0...16])
@@ -223,7 +223,7 @@ module Graphene
       encrypted_privkey = "\x01\x42" + flagbyte + addresshash + encryptedhalf1 + encryptedhalf2
       encrypted_privkey += Digest::SHA256.digest( Digest::SHA256.digest( encrypted_privkey ) )[0...4]
 
-      encrypted_privkey = Graphene.encode_base58( encrypted_privkey.unpack("H*")[0] )
+      encrypted_privkey = Graphene.encode_base58( encrypted_privkey.bth )
     end
 
     # Import private key from bip38 (non-ec-multiply) fromat as described in
@@ -250,7 +250,7 @@ module Graphene
       decryptedhalf1 = aes.call(derivedhalf2, encryptedhalf1)
 
       priv = decryptedhalf1 + decryptedhalf2
-      priv = (priv.unpack("H*")[0].to_i(16) ^ derivedhalf1.unpack("H*")[0].to_i(16)).to_s(16).rjust(64, '0')
+      priv = (priv.bth.to_i(16) ^ derivedhalf1.bth.to_i(16)).to_s(16).rjust(64, '0')
       key = Graphene::Key.new(priv, nil, compressed)
 
       # if Digest::SHA256.digest( Digest::SHA256.digest( key.addr ) )[0...4] != addresshash
@@ -270,7 +270,7 @@ module Graphene
       s2 = OpenSSL::PKCS5.pbkdf2_hmac(passphrase+"\x02", salt+"\x02", 2**16, 32, OpenSSL::Digest::SHA256.new)
       s3 = s1.bytes.zip(s2.bytes).map{|a,b| a ^ b }.pack("C*")
 
-      key = Graphene::Key.new(s3.unpack("H*")[0], nil, compressed)
+      key = Graphene::Key.new(s3.bth, nil, compressed)
       # [key.addr, key.to_base58, [s1,s2,s3].map{|i| i.unpack("H*")[0] }, compressed]
       key
     end
