@@ -95,6 +95,19 @@ describe Graphene::Key do
     expect(a).to eq "7jDPoMwyjVH5obFmqzFNp4Ffp7G2nvC7FKFkrMBpo7Sy4uq5Mj"
   end
 
+  it "graphenebaseCheckDecode" do
+    a = "7jDPoMwyjVH5obFmqzFNp4Ffp7G2nvC7FKFkrMBpo7Sy4uq5Mj"
+    expect(Graphene.grapheneBase58CheckDecode(a)).to eq "0376072354654f7f12aaa513a302dac8ff52d7df2c81fce1ebf1dfa5e139b48b31"
+  end
+
+  it "public key compressed/uncompressed convert" do
+    k = Graphene::Key.new nil, @key_data[:pub_hex]
+    expect(k.pub_compressed).to eq @key_data[:pub_compressed_hex]
+
+    k = Graphene::Key.new nil, @key_data[:pub_compressed_hex]
+    expect(k.pub_uncompressed).to eq @key_data[:pub_hex]
+  end
+
   it "g_base58_checksum" do
     [
       "7jDPoMwyjVH5obFmqzFNp4Ffp7G2nvC7FKFkrMBpo7Sy4uq5Mj", #hash512
@@ -108,8 +121,7 @@ describe Graphene::Key do
 
   it "should get pubkey" do
     expect(@key.pubkey).to eq @key_data[:pub_str_compressed]
-    @key.instance_eval { @pubkey_compressed = false }
-    expect(@key.pubkey).to eq @key_data[:pub_str]
+    expect(@key.pubkey(false)).to eq @key_data[:pub_str]
   end
 
   it "should get addr" do

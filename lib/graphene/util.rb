@@ -42,16 +42,22 @@ module Util
   # verify base58 checksum for graphene based +base58+ data.
   # if address_prefix is found, remove it first
   def g_base58_checksum?(base58)
-    #remove prefix if there's any
-    if base58[0...address_prefix.size] == address_prefix.upcase
-      base58 = base58[address_prefix.size..-1]
-    end
+    base58 = remove_prefix(base58)
 
     hex = decode_base58(base58) rescue nil
     return false unless hex
     g_checksum( hex[0...hex.size-8] ) == hex[-8..-1]
   end
   alias :g_address_checksum? :g_base58_checksum?
+
+  # remove prefix if there's any
+  def remove_prefix(base58)
+    if base58[0...address_prefix.size] == address_prefix.upcase
+      base58[address_prefix.size..-1]
+    else
+      base58
+    end
+  end
 
   def grapheneBase58CheckEncode(hex)
     bytes = [hex].pack("H*")
@@ -122,6 +128,16 @@ module Util
     checksum = Digest::RMD160.digest(bytes)[0...4]
     result = hex + checksum.unpack("H*")[0]
     return encode_base58(result)
+  end
+
+  def grapheneBase58CheckDecode(base58)
+    # raise "Invalid checksum" unless Digest::RMD160.digest([hex].pack("H*"))[0...4] == [checksum].pack("H*")
+    raise "Invalid checksum" unless g_base58_checksum?(base58)
+
+    decoded = decode_base58(remove_prefix(base58))
+    hex     = decoded[0...-8]
+
+    return hex
   end
 
   def g_encode_address(hex, version=nil)

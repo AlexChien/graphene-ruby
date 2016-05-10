@@ -111,11 +111,21 @@ module Graphene
     end
 
     # public key string with prefix
-    def pub_str
-      Graphene.g_encode_address(pub)
+    # be default, return compressed pubkey
+    # can pass in pubhex to convert, either compressed or uncompressed
+    #
+    # @exmaple:
+    #   key.pubkey # default
+    #   key.pubkey(false) # return uncompressed prefix publick key
+    def pub_str(compressed = true)
+      Graphene.g_encode_address(compressed ? pub_compressed : pub_uncompressed)
     end
     alias_method :pubkey, :pub_str
 
+    # convert prefix base58 pubkey back to hex
+    def self.pub_str_to_hex(str)
+      Graphene.grapheneBase58CheckDecode(str)
+    end
 
     # Sign +data+ with the key.
     #  key1 = Graphene::Key.generate
