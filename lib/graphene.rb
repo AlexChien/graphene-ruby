@@ -16,6 +16,7 @@ module Graphene
   autoload :VERSION,    'graphene/version'
   autoload :Logger,     'graphene/logger'
   autoload :Key,        'graphene/key'
+  autoload :Memo,       'graphene/memo'
   # autoload :Builder,    'graphene/builder'
 
   require 'graphene/util'
