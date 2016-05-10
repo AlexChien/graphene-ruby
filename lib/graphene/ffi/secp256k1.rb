@@ -123,7 +123,7 @@ module Graphene
 
     def self.generate_key(compressed=true)
       priv, pub = generate_key_pair(compressed)
-      Bitcoin::Key.new(priv.unpack("H*")[0], pub.unpack("H*")[0])
+      Graphene::Key.new(priv.unpack("H*")[0], pub.unpack("H*")[0])
     end
 
     def self.sign(data, priv_key)
