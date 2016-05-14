@@ -8,9 +8,9 @@ module Graphene
     #        Pub(Alice) * Priv(Bob) = Pub(Bob) * Priv(Alice)
     #
     #
-    # @param priv: Key instance or wif
-    # @param pub_str: gbase58 encoded public key str, such as GPH56EzLTXkis55hBsompVXmSdnayG3afDNFmsCLohPh6rSNzkzhs
-    # @returns shared_secret
+    # @param priv [Key|String]: Key instance or wif
+    # @param pub_str [String]: gbase58 encoded public key str, such as GPH56EzLTXkis55hBsompVXmSdnayG3afDNFmsCLohPh6rSNzkzhs
+    # @return [String]
     #
     def self.get_shared_secret(priv, pub)
       priv = get_private_key(priv)
@@ -37,12 +37,12 @@ module Graphene
     #
     # encode plain message to encoded message
     #
-    # @param priv[Key|String]: private key or wif of sender
-    # @param pub[Key|String]: public key or pub_str of receiver
-    # @param nonce[Integer]: random
-    # @param plain[String]: plain message to encode
+    # @param priv [Key|String]: private key or wif of sender
+    # @param pub [Key|String]: public key or pub_str of receiver
+    # @param nonce [Integer]: random
+    # @param plain [String]: plain message to encode
     #
-    # @returns String
+    # @return [String]
     def self.encode_memo(priv, pub, nonce, plain)
       # prepare plain
       # raw = plain.force_encoding("utf-8")
@@ -68,12 +68,12 @@ module Graphene
     #
     # decode encoded message to plain
     #
-    # @param priv[Key|String]: private key or wif of receiver
-    # @param pub[Key|String]: public key or pub_str of sender
-    # @param nonce[Integer]: random
-    # @param message[String]: encoded message to decode
+    # @param priv [Key|String]: private key or wif of receiver
+    # @param pub [Key|String]: public key or pub_str of sender
+    # @param nonce [Integer]: random
+    # @param message [String]: encoded message to decode
     #
-    # @returns String
+    # @return [String]
     def self.decode_memo(priv, pub, nonce, message)
       # prepare message
       raw = message.htb
@@ -91,11 +91,11 @@ module Graphene
     #
     # initialize aes instance
     #
-    # @param shared_secret_hex[hex]
-    # @param nonce[Integer]
-    # @param encrypt[Boolean]
+    # @param shared_secret_hex [hex]
+    # @param nonce [Integer]
+    # @param encrypt [Boolean]
     #
-    # @returns [OpenSSL::Cipher::AES]
+    # @return [OpenSSL::Cipher::AES]
     def self.init_aes(shared_secret_hex, nonce, encrypt = true)
       # extract key and iv from shared_secret
       ss = Graphene.sha512 shared_secret_hex
