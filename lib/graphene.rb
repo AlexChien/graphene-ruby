@@ -38,6 +38,14 @@ module Graphene
 
   class ::String
     include Graphene::BinaryExtensions
+
+    def blank?
+      self.nil? || self == ""
+    end
+
+    def present?
+      !self.blank?
+    end
   end
 
   module ::OpenSSL
