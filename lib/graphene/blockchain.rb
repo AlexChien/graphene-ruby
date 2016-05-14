@@ -8,8 +8,8 @@ module Graphene
 
     module Apis
         DATABASE           = "database"
-        NETWORK_BROADCAST  = "network_broadcast_api"
-        NETWORK_NODE       = "network_node_api"
+        NETWORK_BROADCAST  = "network_broadcast"
+        NETWORK_NODE       = "network_node"
         HISTORY            = "history"
     end
 
