@@ -20,6 +20,8 @@ module Graphene
   autoload :Blockchain, 'graphene/blockchain'
   # autoload :Builder,    'graphene/builder'
 
+  autoload :RPC,        'graphene/rpc'
+
   require 'graphene/util'
   extend Util
 
