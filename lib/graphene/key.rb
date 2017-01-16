@@ -114,6 +114,10 @@ module Graphene
       Graphene.hash512_to_address(Graphene.hash512(pub_uncompressed))
     end
 
+    def addr_compressed
+      Graphene.hash512_to_address(Graphene.hash512(pub_compressed))
+    end
+
     # public key string with prefix
     # be default, return compressed pubkey
     # can pass in pubhex to convert, either compressed or uncompressed
@@ -201,7 +205,6 @@ module Graphene
       hex  = data + Graphene.checksum(data)
       Graphene.int_to_base58( hex.to_i(16) )
     end
-
 
     # Export private key to bip38 (non-ec-multiply) format as described in
     # https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki
