@@ -5,9 +5,11 @@ require 'digest/rmd160'
 require 'openssl'
 require 'securerandom'
 
-require 'graphene/protocol/rpc'
-require 'graphene/protocol/ws'
-require 'graphene/actor/base_actor'
+require 'pry' rescue nil
+
+# require 'graphene/protocol/rpc'
+# require 'graphene/protocol/ws'
+# require 'graphene/actor/base_actor'
 
 module Graphene
   autoload :Protocol,   'graphene/protocol'

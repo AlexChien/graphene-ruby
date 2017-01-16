@@ -1,0 +1,66 @@
+from binascii import hexlify, unhexlify
+from graphenebase.base58 import ripemd160, Base58
+from graphenebase import PrivateKey, PublicKey
+priv = PrivateKey("5J4eFhjREJA7hKG6KcvHofHMXyGQZCDpQE463PAaKo9xXY6UDPq")
+pubkey = priv.pubkey
+pubkey
+format(pubkey, 'bts')
+
+
+
+from binascii import hexlify, unhexlify
+from graphenebase.base58 import ripemd160, Base58
+from graphenebase import PrivateKey, PublicKey
+priv = PrivateKey("5KN7MzqK5wt2TP1fQCYyHBtDrXdJuXbUzm4A9rKAteGu3Qi5CVR")
+pubkey = priv.pubkey
+
+
+
+# memo/shared secret
+
+import os
+from pprint import pprint
+from graphenebase.account import BrainKey, Address, PublicKey, PrivateKey
+from graphenebase.memo import (
+    get_shared_secret,
+    _pad,
+    _unpad,
+    encode_memo,
+    decode_memo
+)
+priv = "5JYWCqDpeVrefVaFxJfDc3mzQ67dtsfhU7zcB7AMJYuTH57VsoE"
+pub = "GPH56EzLTXkis55hBsompVXmSdnayG3afDNFmsCLohPh6rSNzkzhs"
+priv = PrivateKey(priv)
+pub = PublicKey(pub, prefix="GPH")
+get_shared_secret(priv, pub)
+
+
+# memo/encode
+
+import os
+import hashlib
+from binascii import hexlify, unhexlify
+from Crypto.Cipher import AES
+from pprint import pprint
+from graphenebase.account import BrainKey, Address, PublicKey, PrivateKey
+from graphenebase.memo import (
+    get_shared_secret,
+    _pad,
+    _unpad,
+    encode_memo,
+    decode_memo
+)
+priv = "5Jpkeq1jiNE8Pe24GxFWTsyWbcP59Qq4cD7qg3Wgd6JFJqJkoG8"
+pub = "GPH6HAMuJRkjGJkj6cZWBbTU13gkUhBep383prqRdExXsZsYTrWT5"
+priv = PrivateKey(priv)
+pub = PublicKey(pub, prefix="GPH")
+decode_memo(priv, pub, '16332877645293003478', '688fe6c97f78ad2d3c5a82d9aa61bc23')
+encode_memo(priv, pub, '16332877645293003478', 'I am this!')
+
+
+
+from graphenewsrpc import GrapheneWebsocketRPC
+url = "ws://localhost:8099"
+username = 'user'
+password = 'pass'
+ws = GrapheneWebsocketRPC(url, username, password)
