@@ -8,7 +8,7 @@ GEM_NAME    = 'graphene'
 
 PKG_FILES =
   Dir.glob('{examples,lib,specs}/**/*.rb') +
-  ['LICENSE', 'Rakefile', 'README.md', 'graphene.gemspec']
+  ['LICENSE', 'Rakefile', 'README.md', 'graphene.gemspec', 'lib/graphene.rb']
 
 TEST_FILES = Dir.glob('specs/**/*.rb')
 
