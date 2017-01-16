@@ -19,10 +19,10 @@ module Graphene
     # See also #to_base58
     def self.from_base58(str)
       hex = Graphene.decode_base58(str)
-      compressed = hex.size == 76
-      version, key, flag, checksum = hex.unpack("a2a64a#{compressed ? 2 : 0}a8")
+      compressed = hex.size == 74 # graphene
+      version, key, checksum = hex.unpack("a2a64a8")
       raise "Invalid version"   unless version == Graphene.network[:privkey_version]
-      raise "Invalid checksum"  unless Graphene.checksum(version + key + flag) == checksum
+      raise "Invalid checksum"  unless Graphene.checksum(version + key) == checksum
       key = new(key, nil, compressed)
     end
 
@@ -108,6 +108,10 @@ module Graphene
     # graphene use hash512 to get public key
     def addr
       Graphene.hash512_to_address(hash512)
+    end
+
+    def addr_uncompressed
+      Graphene.hash512_to_address(Graphene.hash512(pub_uncompressed))
     end
 
     # public key string with prefix

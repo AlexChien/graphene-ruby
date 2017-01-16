@@ -145,8 +145,17 @@ module Util
     return version.upcase + encode_base58(hex + g_checksum(hex))
   end
 
-  def pubkey_to_address(pubkey)
-    hash160_to_address( hash160(pubkey) )
+  # convert pubkey or pubkey_hex to address
+  #
+  # @param type: hex|base58
+  def pubkey_to_address(pubkey, type='hex')
+    if type == 'hex'
+      hash160_to_address( hash160(pubkey) )
+    elsif type == 'base58'
+      hash512_to_address(hash512(grapheneBase58CheckDecode(pubkey)))
+    else
+      nil
+    end
   end
 
   def pubkeys_to_p2sh_multisig_address(m, *pubkeys)

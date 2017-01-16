@@ -100,6 +100,11 @@ describe Graphene::Key do
     expect(Graphene.grapheneBase58CheckDecode(a)).to eq "0376072354654f7f12aaa513a302dac8ff52d7df2c81fce1ebf1dfa5e139b48b31"
   end
 
+  it "convert pubkey to address" do
+    pubkey = @key_data[:pub_str_compressed]
+    expect(Graphene.pubkey_to_address pubkey, 'base58').to eq @key_data[:address_compressed]
+  end
+
   it "public key compressed/uncompressed convert" do
     k = Graphene::Key.new nil, @key_data[:pub_hex]
     expect(k.pub_compressed).to eq @key_data[:pub_compressed_hex]
@@ -192,11 +197,11 @@ describe Graphene::Key do
     Graphene.network = :graphene
     key = Graphene::Key.from_base58(@key_data[:priv_wif])
     expect(key.priv).to eq @key_data[:priv_hex]
-    expect(key.addr).to eq @key_data[:address]
+    expect(key.addr).to eq @key_data[:address_compressed]
     Graphene.network = :bitshares
     key = Graphene::Key.from_base58(@key_data[:priv_wif])
     expect(key.priv).to eq @key_data[:priv_hex]
-    expect(key.addr).to eq @key_data[:address].gsub(/^GPH/,"BTS")
+    expect(key.addr).to eq @key_data[:address_compressed].gsub(/^GPH/,"BTS")
     Graphene.network = :graphene
   end
 
@@ -210,7 +215,7 @@ describe Graphene::Key do
     Graphene.network = :graphene
   end
 
-  it "should import private key in compressed base58 format" do
+  it "should import private key in compressed base58 format", :focus do
     Graphene.network = :graphene
     key = Graphene::Key.from_base58(@key_data[:priv_wif_compressed])
     expect(key.priv).to eq @key_data[:priv_hex]
